@@ -2,7 +2,7 @@
   "name": "tapes",
   "version": "1.0.0",
   "description": "",
-  "main": "/src/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development"
   },
@@ -10,17 +10,21 @@
     "type": "git",
     "url": "git+https://github.com/Superdizzy17/Tapes.git"
   },
-  "author": "Dylan Kieran",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Superdizzy17/Tapes/issues"
   },
   "homepage": "https://github.com/Superdizzy17/Tapes#readme",
-  "dependencies": {
-    "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.3.3",
+  "devDependencies": {
     "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {
+    "googleapis": "^35.0.0",
+    "node-fetch": "^2.3.0",
+    "querystring": "^0.2.0",
+    "request": "^2.88.0"
   }
 }

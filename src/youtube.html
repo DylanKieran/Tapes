@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Tapes</title>
+  </head>
+
+  <link rel="stylesheet" href="style.css">  
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  
+  <body>
+
+    <img class="logo" src="/Tapes.png">
+
+    <img src="spotify.png" id="signin"/>
+  
+    <div class="nav">
+      <a id="back" href="http://localhost:8081">Spotify</a>
+      <a class ="active" href="http://localhost:8081/youtube.html">Youtube</a>
+    </div>
+
+    <div class="search-wrap">
+        <div class="search-bar">
+          <input type="text" class="query" id="youtubeQuery"/>
+          <img src="search.png" class="search" id="searchYoutube"/>
+        </div>
+    </div>
+
+    <div class="results" id="youtubeResults"></div>
+
+    <div id="player"></div>
+
+  </body> 
+  <script src="youtube.js"></script>
+</html>

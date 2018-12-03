@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Tapes</title>
+  </head>
+
+  <link rel="stylesheet" href="style.css">  
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+  <body>
+
+    <img class="logo" src="/Tapes.png">
+
+    <img src="spotify.png" id="signin"/>
+
+    <div class="nav">
+      <a class ="active" href="">Spotify</a>
+      <a href="http://localhost:8081/youtube.html">Youtube</a>
+    </div>
+
+    <div class="search-wrap">
+      <div class="search-bar">
+        <input type="text" class="query" id="query"/>
+        <img src="search.png" class="search" id="search"/>
+      </div>
+    </div>
+
+    <div class="results" id="results"></div>
+
+    <div class="footer">
+      <div class="playback">
+          <img src="prev.png" id="prev"/>
+          <img src="playpause.png" id="play"/>
+          <img src="next.png" id="next"/>
+      </div>
+
+      <div class="playbackInfo">
+        <img id="albumArt" src="" />
+        <p id="trackName"></p>
+        <p id="albumName"></p>
+        <p id="artistName"></p>
+      </div>
+    </div>
+
+  </body> 
+
+  <script src="index.js"></script>
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+</html>

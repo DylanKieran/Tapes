@@ -1,0 +1,256 @@
+body{
+    background-image: linear-gradient(#1e152a ,#1e152a);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+    margin: 0;
+}
+
+.logo{
+    background-color: none;
+    border: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+    height: 15%;
+}
+
+#signin{
+    position: absolute;
+    transition: transform .2s;
+    top: 2%;
+    right: 2%;
+    height: auto;
+    width: 3%;
+}
+
+#signin:hover{
+    transform: scale(1.4);
+}
+
+.nav{
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+}
+
+.nav .active{
+    border-bottom:5px solid #d50057;
+}
+
+.nav a{
+    padding: 20px;
+}
+
+.nav a:link {
+    color: white;
+    text-decoration: none;
+}
+
+.nav a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.search-wrap{
+    width: 30%;
+    position: absolute;
+    top: 32%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+}
+
+.search-bar{
+    width: 100%;
+    position: relative
+}
+
+.search{
+    position: absolute;  
+    right: -50px;
+    width: 36px;
+    height: 34px;
+    border: 1px solid #d50057;
+    background: #d50057;
+    text-align: center;
+    color: #fff;
+    border-radius: 1px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.query {
+    float: left;
+    width: 100%;
+    border: 3px solid #d50057;
+    padding: 5px;
+    height: 20px;
+    border-radius: 2px;
+    outline: none;
+    color: #9DBFAF;
+  }
+  
+.query:focus{
+    color: #1e152a;
+  }
+
+.results{
+    background: none;
+    text-align: center;
+    width: 90%;
+    height: auto;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10%
+}
+
+.result{
+    display: inline-block;
+    width: 30%;
+    height: 20%;
+}
+
+h1{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    font-size: 20px;
+}
+
+h2{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    font-size: 16px;
+}
+
+h3{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    font-size: 14px;
+}
+
+.artWork{
+    border-radius: 50%;
+}
+
+.thumbnail:hover{
+    box-shadow: 0 0 2px 1px #150C20;
+}
+
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 10%;
+    width: 100%;
+    background-color: #150C20;
+}
+
+.playback{
+    text-align: center;
+}
+
+.playbackInfo
+{
+
+}
+
+.playback #play{
+    border: none;
+    display: inline-block;
+    transition: transform .2s;
+    padding: 20px 25px 10px 25px;
+    width: 40px;
+    height: 40px;
+}
+
+.playback #prev{
+    border: none;
+    display: inline-block;
+    transition: transform .2s;
+    padding: 20px 25px 10px 25px;
+    width: 35px;
+    height: 35px;
+}
+
+.playback #next{
+    border: none;
+    display: inline-block;
+    transition: transform .2s;
+    padding: 20px 25px 10px 25px;
+    width: 35px;
+    height: 35px;
+}
+
+.playback #play:hover{
+    transform: scale(1.4);
+}
+
+.playback #prev:hover{
+    transform: scale(1.4);
+}
+
+.playback #next:hover{
+    transform: scale(1.4);
+}
+
+.youtubePlayer{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 900px;
+    width: 90%;
+    bottom: 10%;    
+    border: none;
+}
+
+#albumArt{
+    text-indent: 100vw;
+    position:relative;
+    bottom:65px;
+    left:20px;
+    height: 4%;
+    width: 4%;
+    background: none;
+    border: none;
+}
+
+#trackName{
+    display: block;
+    position:relative;
+    bottom:155px;
+    left:130px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #fff;
+}
+
+#albumName{
+    display: block;
+    position:relative;
+    bottom:155px;
+    left:130px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #fff;
+}
+
+#artistName{
+    display: block;
+    position:relative;
+    bottom:155px;
+    left:130px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #fff;
+}
