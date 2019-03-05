@@ -7,6 +7,9 @@
     <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/> 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    
+  <link rel="stylesheet" href="style2.css"> 
   </head>
 
   <body>
@@ -31,18 +34,37 @@
         </div>
     </div>
 
-    <div class="TopSongs-container">
-      <h1>Top Songs</h1>
-      <div class="results" id="TopSongs"></div>
+    <img src="./assets/spotify.png" id="signin"/>
+
+    <div class="search-wrap">
+      <div class="search-bar">
+        <input type="text" class="query" id="query"/>
+        <img src="./assets/search.png" class="search" id="search"/>
+      </div>
     </div>
 
-    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-    <div id="player"></div>
-    <button id="video">Button</button>
+    <div class="results" id="results"></div>
+
+    <div class="footer">
+      <div class="playback">
+          <img src="./assets/prev.png" id="prev"/>
+          <img src="./assets/playpause.png" id="play"/>
+          <img src="./assets/next.png" id="next"/>
+      </div>
+
+      <div class="playbackInfo">
+        <img id="albumArt" src="" />
+        <p id="trackName"></p>
+        <p id="albumName"></p>
+        <p id="artistName"></p>
+      </div>
+    </div>
+  </div>
 
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="/js/materialize.min.js"></script>
-    <script type="text/javascript" src="youtubeplayer.js"></script>
   </body>
+  <script src="spotify.js"></script>
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
 </html>

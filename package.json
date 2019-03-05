@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "googleapis": "^35.0.0",
+    "materialize-css": "^1.0.0-rc.2",
     "node-fetch": "^2.3.0",
     "querystring": "^0.2.0",
     "request": "^2.88.0"
