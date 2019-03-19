@@ -1,0 +1,8 @@
+pause
+play_arrow
+fast_forward
+fast_rewind
+volume_down
+volume_mute
+volume_off
+volume_up

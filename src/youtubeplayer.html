@@ -31,17 +31,33 @@
         </div>
     </div>
 
-    <div class="TopSongs-container">
-      <h1>Top Songs</h1>
-      <div class="results" id="TopSongs"></div>
+    <!--
+    <div id="TopSongs-container" class="card">
+      <div class="card-content">
+        <ul id="TopSongs" class="collection"></ul>
+      </div>
     </div>
+    -->
+
+<div class="row">
+<br><br>
+    <div class="col s3 offset-s1">
+    <h2 class="header">Playback</h2>
+        <div class="row purple darken-1 wrapper">
+            <div class="card horizontal grey lighten-5">
+                <div class="card-image">
+                  <div id="player"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-    <div id="player"></div>
     <button id="video">Button</button>
 
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="onload.js"></script>
     <script type="text/javascript" src="/js/materialize.min.js"></script>
     <script type="text/javascript" src="youtubeplayer.js"></script>
   </body>

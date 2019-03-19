@@ -34,35 +34,41 @@
         </div>
     </div>
 
-    <img src="./assets/spotify.png" id="signin"/>
-
-    <div class="search-wrap">
+    <!--<div class="search-wrap">
       <div class="search-bar">
         <input type="text" class="query" id="query"/>
         <img src="./assets/search.png" class="search" id="search"/>
       </div>
     </div>
 
-    <div class="results" id="results"></div>
+    <div class="results" id="results"></div>-->
 
-    <div class="footer">
-      <div class="playback">
-          <img src="./assets/prev.png" id="prev"/>
-          <img src="./assets/playpause.png" id="play"/>
-          <img src="./assets/next.png" id="next"/>
-      </div>
-
-      <div class="playbackInfo">
-        <img id="albumArt" src="" />
-        <p id="trackName"></p>
-        <p id="albumName"></p>
-        <p id="artistName"></p>
+    <div id="content">
+      <div id="playback">
+        <div class="row">
+          <br><br><br>
+            <div class="col s8 offset-s2">
+                <div class="card horizontal">
+                  <div class="card-image">
+                    <img src="../assets/spotify-connect.jpg">
+                  </div>
+                  <div class="card-stacked">
+                    <div class="card-content">
+                        <h5>Connect to Spotify</h4>
+                        <p>Access Spotify playback options by connecting your account with Tapes</p>
+                        <br>
+                        <button id="signin" class="purple darken-1 waves-effect waves-light btn-large">Sign In to Spotify</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
       </div>
     </div>
-  </div>
+
 
     <!--JavaScript at end of body for optimized loading-->
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="onload.js"></script>
     <script type="text/javascript" src="/js/materialize.min.js"></script>
   </body>
   <script src="spotify.js"></script>

@@ -1,9 +1,55 @@
-const queryString = import('querystring');
-const fetch = import('node-fetch');
+//document.getElementById("trackName").innerHTML = "";
+//document.getElementById("albumName").innerHTML = "";
+//document.getElementById("artistName").innerHTML = "";
 
-document.getElementById("trackName").innerHTML = "";
-document.getElementById("albumName").innerHTML = "";
-document.getElementById("artistName").innerHTML = "";
+// Variables
+playback = 
+"<div class=\"row\">" +
+"<br><br>"+
+    "<div class=\"col s4 offset-s4\">" +
+    "<h2 class=\"header\">Playback</h2>" +
+        "<div class=\"row purple darken-1 wrapper\">" +
+            "<div class=\"card horizontal grey lighten-5\">" + 
+                "<div class=\"card-image\">" +
+                    "<img id=\"albumArt\" src=\"\">" +
+                "</div>" +
+                "<div class=\"card-stacked\">" +
+                    "<div class=\"card-content\">" +
+                        "<h3 id=\"trackName\"></h3>" +
+                        "<h6 id=\"albumName\"></h6>" +
+                        "<h6 id=\"artistName\"></h6>" +
+                    "</div>" +
+                "</div>" +
+            "</div>" +
+        "</div>" +
+    "</div>" +
+"</div>";
+
+instructions = 
+"<div class=\"row\">" + 
+    "<div class=\"col s8 offset-s2\">" +
+     "<br><br>" +
+        "<div class=\"card-panel grey lighten-5 z-depth-1\">" +
+            "<div class=\"row valign-wrapper\">" +
+                "<div class=\"col s2\">" +
+                    "<img src=\"./assets/instructions.gif\"/>" +
+                "</div>" +
+                "<div class=\"col s6\">" +
+                    "<h4>Control Playback</h4>" + 
+                    "<span class=\"black-text\">" +
+                        "In order to connect to the Spotify Player please follow the following instructions:" +
+                        "<br><br>" +
+                        "<b>1.</b> Fire up the Spotify app on your phone, laptop or tablet." +
+                        "<br>" +
+                        "<b>2.</b> Play a song and select Devices Available." +
+                        "<br>" +
+                        "<b>3.</b> Select Tapes as your device and start listening." +
+                    "</span>" +
+                "</div>" +
+            "</div>" +
+        "</div>" +
+    "</div>" +
+"</div>";
 
 //Click event for sign in functionality
 let login = document.getElementById("signin").onclick = function() 
@@ -12,35 +58,34 @@ let login = document.getElementById("signin").onclick = function()
 }
 
 //Parse authentication token passed from server to client via browser url and store in local storage
-let parsed = queryString.parse(window.location.search);
-let parsedToken = parsed["?access_token"];
+let parsed = window.location.search.substr(1);
+let parsedToken = parsed.slice(13);
 
 localStorage.setItem('accessToken', parsedToken);
 let accessToken = localStorage.getItem('accessToken');
 
-if(accessToken.length > 1){
+// If user is signed in then proceed to display the playback instructions
+if(accessToken.length > 1)
+{
     fetch('https://api.spotify.com/v1/me',{
         method: 'get',
         headers: { 'Authorization': 'Bearer ' + accessToken},
     })
     .then(res =>  res.json())
     .then(function(res) {
-        
         console.log(res);
         document.getElementById("signin").src = res.images[0].url;
+        document.getElementById("playback").innerHTML = instructions;
     });
 }
-else{
-    document.getElementById("signin").src = "search.png";
-}
 
-//Click event for search button 
+/*/Click event for search button 
 document.getElementById("search").onclick = function()
 {
     let query = document.getElementById("query").value;
     console.log(query);
     Search(accessToken,query, 10);
-};
+};*/
 
 //Search function to search for artist/track
 function Search(accessToken, query, limit)
@@ -72,7 +117,18 @@ function Search(accessToken, query, limit)
         }
 
     });
+}
 
+// Retrieve Spotify topSongs
+function spotify_topSongs(accessToken)
+{
+    url="https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF"
+
+    return fetch(url,{
+        method: 'get',
+        headers: { 'Authorization': 'Bearer ' + accessToken}})
+    .then(res => res.json())
+    .catch(error => console.log(error))
 }
 
 //Call Spotify Player and initiate player
@@ -100,8 +156,9 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         let artistName = state.track_window.current_track.artists
                         .map(artist => artist.name)
                         .join(", ");
-        let albumArt = state.track_window.current_track.album.images[0].url;
+        let albumArt = state.track_window.current_track.album.images[2].url;
 
+        document.getElementById("playback").innerHTML = playback;
 
         document.getElementById("albumArt").src = albumArt;
         document.getElementById("trackName").innerHTML = trackName;

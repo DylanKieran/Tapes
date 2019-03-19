@@ -32,16 +32,50 @@
       </div>
 
       <ul class="tabs tabs-fixed-width purple darken-1">
-          <li class="tab col s3"><a class="active" href="#songs">Top Songs</a></li>
-          <li class="tab col s3"><a href="#artists">Top Artists</a></li>
-          <li class="tab col s3"><a href="#albums">Top Albums</a></li>
+          <li class="tab col s3"><a class="active" href="#songs" id="topSongs">Top Songs</a></li>
+          <li class="tab col s3"><a href="#artists" id="topArtists">Top Artists</a></li>
       </ul>
 
-      <div id="songs" class="col s12">Top Songs</div>
-      <div id="artists" class="col s12">Top Artists</div>
-      <div id="albums" class="col s12">Top Albums</div>
+      <div id="songs" class="col s8">
+        <div class="row">
+          <br><br>
+          <div class="col s4 offset-s1">
+            <div class="row purple darken-1 wrapper">
+                <div id="topSongs-container" class="grey lighten-3 card">
+                  <div class="card-content">
+                    <h4>LastFM's Top Songs</h4>
+                    <ul id="topSongs-list" class="collection"></ul>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="col s4 offset-s2">
+            <div class="row purple darken-1 wrapper">
+                <div id="topSongs-container" class="grey lighten-3 card">
+                  <div class="card-content">
+                    <h4>YouTube's Top Songs</h4>
+                    <ul id="youtube-topSongs-list" class="collection"></ul>
+                  </div>
+                </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <div id="artists" class="col s12">
+          <div id="topArtists-container" class="card">
+            <div class="card-content">
+              <ul id="topArtists-list" class="collection">
+              </ul>
+            </div>
+          </div>
+      </div>
+
 
     <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="onload.js"></script>
     <script type="text/javascript" src="index.js"></script>
     <script type="text/javascript" src="/js/materialize.min.js"></script>
   </body>

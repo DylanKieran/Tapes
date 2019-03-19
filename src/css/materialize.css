@@ -3103,8 +3103,8 @@ td, th {
 .collection .collection-item.avatar:not(.circle-clipper) > .circle,
 .collection .collection-item.avatar :not(.circle-clipper) > .circle {
   position: absolute;
-  width: 42px;
-  height: 42px;
+  width: 60px;
+  height: 60px;
   overflow: hidden;
   left: 15px;
   display: inline-block;
@@ -3113,7 +3113,7 @@ td, th {
 
 .collection .collection-item.avatar i.circle {
   font-size: 18px;
-  line-height: 42px;
+  line-height: 60px;
   color: #fff;
   background-color: #999;
   text-align: center;
