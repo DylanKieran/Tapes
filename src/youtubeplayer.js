@@ -23,15 +23,15 @@ player = new YT.Player('player', {
   });
 }
 
-document.getElementById("video").onclick = function(){
+/*document.getElementById("video").onclick = function(){
   player.loadVideoById({'videoId': 'cwQgjq0mCdE',
   'startSeconds': 5,
   'suggestedQuality': 'large'});
-}
+}*/
 
 //The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-  //event.target.playVideo();
+  event.target.playVideo();
 }
 
 function onPlayerError(e){
@@ -43,13 +43,21 @@ function onPlayerError(e){
   console.log('error has occured' + e.data);
 }
 
+// Adds video to start of queue to be played
 function addtoqueue(videoid)
 {
     player.cueVideoById({'videoId': videoid,
         'startSeconds':5});
-    player.playVideo();
+    Queue.unshift(videoid)
+    retrieveVideoInfo(videoid).then(function(res)
+    {
+      console.log(res.items);
+      insertHead(res);
+    })
+    addQueue(Queue);
 }
 
+// Retrieve Youtube video information
 function retrieveVideoInfo(videoId)
 {
    return fetch('https://www.googleapis.com/youtube/v3/videos?part=snippet'
@@ -61,15 +69,100 @@ function retrieveVideoInfo(videoId)
     .catch(error => console.log(error))
 }
 
-/*/Function to retrieve top songs
-function topSongs(YouTubeKey)
+//Queue
+let Queue = []; 
+
+// Add item to queue
+function addtoQueue(videoid)
+{
+    //Add song to bottom of Queue
+    retrieveVideoInfo(videoid).then(function(res)
+    {
+      console.log(res.items);
+      popQueue(res);
+    })
+
+    Queue.push(videoid);
+    console.log("Video added:" + Queue);
+    addQueue(Queue);
+}
+
+// Add queue playlist to youtube player
+function addQueue(Queue)
+{
+  player.cuePlaylist({
+    playlist: Queue
+  });
+}
+
+// Remove video from queue
+function removefromQueue(videoid)
+{
+    //Remove song when finished playing
+    //shift removes song from beginning of the array
+    var index = Queue.indexOf(videoid);
+ 
+    if (index > -1) {
+       Queue.splice(index, 1);
+    }
+    console.log("Video Removed:" + Queue);
+
+    var elem = document.getElementById(videoid);
+    elem.parentNode.removeChild(elem);
+
+    addQueue(Queue);
+}
+
+//Populate Queue list with added song
+function popQueue(res)
+{
+    console.log(res);
+
+    document.getElementById("queue").innerHTML += 
+    "<li id=\"" + res.items[0].id + "\" class=\"collection-item avatar\">" +
+    "<img src=\"" + res.items[0].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[0].id + "')\">" +
+    "<div class=\"col s10 offset-s1\">" +
+    "<p class=\"title\">" + res.items[0].snippet.title + "</p>" +
+    "<i class=\"secondary-content material-icons small pink-text\" onclick=\"removefromQueue('" + res.items[0].id + "')\">remove_from_queue</i>" +
+    "</div>" +
+    "</li>";
+}
+
+//Add song to start of queue to be played
+function insertHead(res)
+{
+  console.log(res);
+
+  listitem = document.createElement("li"); 
+
+  var id = document.createAttribute("id");
+  id.value = res.items[0].id;                           
+  listitem.setAttributeNode(id);
+
+  var att = document.createAttribute("class");
+  att.value = "collection-item avatar";                           
+  listitem.setAttributeNode(att);
+
+  var list = document.getElementById("queue");
+  list.insertBefore(listitem, list.childNodes[0]);
+
+  document.getElementById(res.items[0].id).innerHTML =
+  "<img src=\"" + res.items[0].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[0].id + "')\">" +
+  "<div class=\"col s10 offset-s1\">" +
+  "<p class=\"title\">" + res.items[0].snippet.title + "</p>" +
+  "<i class=\"secondary-content material-icons small pink-text\" onclick=\"removefromQueue('" + res.items[0].id + "')\">remove_from_queue</i>" +
+  "</div>";
+}
+
+//Function to retrieve top songs
+function youtubetopSongs()
 {
     return fetch('https://www.googleapis.com/youtube/v3/videos?part=snippet'
     + '&maxResults=10'
     + '&chart=mostPopular' 
     + '&videoCategoryId=10'
     + '&regionCode=IE'
-    + '&key=' + YouTubeKey,{
+    + '&key=' + "AIzaSyCDLBp4ecF3bkrq_rJWb47Gu9hdtw58YrU",{
         method: 'get'
     })
     .then(res =>  res.json())
@@ -77,26 +170,72 @@ function topSongs(YouTubeKey)
 }
 
 //Populate div with top songs 
-topSongs(YouTubeKey).then(function(res) 
+youtubetopSongs().then(function(res) 
 {
     let id = 0;
     console.log(res);
-    document.getElementById("TopSongs").innerHTML = null;
+    document.getElementById("youtube-topSongs-list").innerHTML = null;
 
     for(let i=0; i<10; i++)
     {
         if(res.items[i].kind === "youtube#video")
         {
-           document.getElementById("TopSongs").innerHTML += 
+            document.getElementById("youtube-topSongs-list").innerHTML += 
             "<li class=\"collection-item avatar\">" +
-            "<img src=\"" + res.items[i].snippet.thumbnails.default.url + "\" alt=\"\" class=\"\" onclick=\"addtoqueue('" + res.items[i].id + "')\">" +
-            "<span class=\"title\">" + res.items[i].snippet.title + "</span>" +
-            "<p>Playcount: " + "<br></p>" +
-            "</p>" + (id+1) + 
-            "</p><a href=\"#!\" class=\"secondary-content\"><i class=\"material-icons pink-text\">grade</i></a>" +
+            "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].id + "')\">" +
+            "<div class=\"col s10 offset-s1\">" +
+            "<p class=\"title\">" + res.items[i].snippet.title + "</p>" +
+            "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].id + "')\">add_to_queue</i>" +
+            "</div>" +
             "</li>";
             id++;
         }
     }
 })
-*/
+
+
+//YouTube Search Function
+function youtubeSearch(YouTubeKey, youtubeQuery, maxResults)
+{
+    let q = youtubeQuery.split(' ').join('+');
+    let arrayRes = [];
+    let id = 0;
+
+    return fetch('https://www.googleapis.com/youtube/v3/search?part=snippet'
+    + '&maxResults=' + maxResults
+    + '&q=' + q
+    + '&key=' + YouTubeKey,{
+        method: 'get'
+    })
+    .then(res =>  res.json())
+    .catch(error => console.log)
+}
+
+//Populate div with search results
+document.getElementById("searchYoutube").onclick = function()
+{
+    let youtubeQuery = document.getElementById("youtubeQuery").value;
+    console.log(youtubeQuery);
+    youtubeSearch(YouTubeKey, youtubeQuery, 15).then(function(res) {
+
+        let id = 0;
+        console.log(res);
+        document.getElementById("search-results").innerHTML = null;
+
+        for(let i=0; i<15; i++)
+        {
+            if(res.items[i].id.kind === "youtube#video")
+            {
+              document.getElementById("search-results").innerHTML += 
+              "<li id=\"" + res.items[0].id.videoId + "\" class=\"collection-item avatar\">" +
+              "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].id.videoId + "')\">" +
+              "<div class=\"col s10 offset-s1\">" +
+              "<p class=\"title\">" + res.items[i].snippet.title + "</p>" +
+              "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].id.videoId + "')\">add_to_queue</i>" +
+              "</div>" +
+              "</li>";
+              id++;
+            }
+        }
+    })
+};

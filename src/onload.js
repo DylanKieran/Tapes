@@ -7,4 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     for (var i = 0; i < tabs.length; i++){
 	    M.Tabs.init(tabs[i]);
     }
+
+    var coll = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(coll);
 });

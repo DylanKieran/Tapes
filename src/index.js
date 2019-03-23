@@ -36,10 +36,11 @@ getTopArtists().then(function(res)
     document.getElementById("topArtists-list").innerHTML += 
     "<li class=\"collection-item avatar\">" +
     "<img src=\"" + res.artists.artist[i].image[3]['#text'] + "\" alt=\"\" class=\"circle\">" +
+    "<div class=\"col s12 offset-s1\">" +
     "<span class=\"title\">" + res.artists.artist[i].name + "</span>" +
     "<p>Playcount: " + res.artists.artist[i].playcount + "<br></p>" +
     "</p>" + (id+1) + 
-    "</p><a href=\"#!\" class=\"secondary-content\"><i class=\"material-icons\">play_arrow</i></a>" +
+    "</div>" +
     "</li>";
     id++;
   }
