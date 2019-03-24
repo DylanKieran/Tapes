@@ -44,7 +44,7 @@
 <br><br>
 
   <div class="col s3 offset-s1">
-      <ul class="collapsible popout">
+      <ul id="youtubeNav" class="collapsible popout">
           <li class="active">
               <div class="collapsible-header"><i class="material-icons">search</i>Search</div>
               <div class="collapsible-body">
@@ -63,6 +63,18 @@
             <div class="collapsible-header"><i class="material-icons">library_music</i>Top Songs</div>
             <div class="collapsible-body"><ul id="youtube-topSongs-list" class="collection"></ul></div>
           </li>
+
+          <li>
+            <div class="collapsible-header"><i class="material-icons">playlist_add</i>Queue Playlist</div>
+            <div class="collapsible-body">
+              <div class="input-field">
+                <input type="search" id="importplaylist" placeholder="YouTube Playlist ID ..."/>
+                <i id="retrievePlaylist" class="material-icons pink-text">chevron_right</i>
+              </div>
+              <ul id="youtubePlaylist" class="collection"></ul>
+            </div>
+          </li>
+
       </ul>
     </div>
 

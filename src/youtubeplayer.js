@@ -31,7 +31,7 @@ player = new YT.Player('player', {
 
 //The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-  event.target.playVideo();
+  //event.target.playVideo();  /*Uncomment to autoplay video*/
 }
 
 function onPlayerError(e){
@@ -88,10 +88,10 @@ function addtoQueue(videoid)
 }
 
 // Add queue playlist to youtube player
-function addQueue(Queue)
+function addQueue(addQueue)
 {
   player.cuePlaylist({
-    playlist: Queue
+    playlist: addQueue
   });
 }
 
@@ -110,6 +110,8 @@ function removefromQueue(videoid)
     var elem = document.getElementById(videoid);
     elem.parentNode.removeChild(elem);
 
+    removeToast();
+
     addQueue(Queue);
 }
 
@@ -126,6 +128,8 @@ function popQueue(res)
     "<i class=\"secondary-content material-icons small pink-text\" onclick=\"removefromQueue('" + res.items[0].id + "')\">remove_from_queue</i>" +
     "</div>" +
     "</li>";
+
+    queueToast(res.items[0].snippet.title);
 }
 
 //Add song to start of queue to be played
@@ -152,6 +156,8 @@ function insertHead(res)
   "<p class=\"title\">" + res.items[0].snippet.title + "</p>" +
   "<i class=\"secondary-content material-icons small pink-text\" onclick=\"removefromQueue('" + res.items[0].id + "')\">remove_from_queue</i>" +
   "</div>";
+
+  playnowToast(res.items[0].snippet.title);
 }
 
 //Function to retrieve top songs
@@ -193,7 +199,6 @@ youtubetopSongs().then(function(res)
     }
 })
 
-
 //YouTube Search Function
 function youtubeSearch(YouTubeKey, youtubeQuery, maxResults)
 {
@@ -216,6 +221,7 @@ document.getElementById("searchYoutube").onclick = function()
 {
     let youtubeQuery = document.getElementById("youtubeQuery").value;
     console.log(youtubeQuery);
+
     youtubeSearch(YouTubeKey, youtubeQuery, 15).then(function(res) {
 
         let id = 0;
@@ -239,3 +245,87 @@ document.getElementById("searchYoutube").onclick = function()
         }
     })
 };
+
+// Search for Playlist and show result on screen
+document.getElementById("retrievePlaylist").onclick = function() 
+{
+  let playlistId = document.getElementById("importplaylist").value;
+  console.log(playlistId);
+
+  retrievePlaylistInfo(playlistId).then(function(res){
+    console.log(res);
+
+    document.getElementById("youtubePlaylist").innerHTML = null;
+
+    document.getElementById("youtubePlaylist").innerHTML +=
+    "<li class=\"collection-item avatar\">" +
+    "<img src=\"" + res.items[0].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addPlaylist('" + res.items[0].id + "','" + res.items[0].snippet.title + "')\">" +
+    "<div class=\"col s10 offset-s1\">" +
+    "<p class=\"title\">" + res.items[0].snippet.title + "</p>" +
+    "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addPlaylist('" + res.items[0].id + "','" + res.items[0].snippet.title + "')\">playlist_add</i>" +
+    "</div>" +
+    "</li>";
+  })
+}
+
+// Function to add playlist tracks to song queue
+function addPlaylist(playlistId, title)
+{
+  retrievePlaylistitems(playlistId).then(function(res){
+      console.log(res);
+      let id = 0;
+      
+      for(let i=0; i<50; i++)
+      {
+        addtoQueue(res.items[i].snippet.resourceId.videoId)
+      }
+
+  })
+
+  playlistToast(title);
+}
+
+// Retrieve Playlist tracks
+function retrievePlaylistitems(playlistId)
+{
+     return fetch('https://www.googleapis.com/youtube/v3/playlistItems?part=snippet'
+    + '&maxResults=50'
+    + '&playlistId=' + playlistId
+    + '&key=' + YouTubeKey,{
+      method: 'get'
+    })
+    .then(res =>  res.json())
+    .catch(error => console.log(error))
+}
+
+// Retrieve Playlist Information
+function retrievePlaylistInfo(playlistId)
+{
+  return fetch('https://www.googleapis.com/youtube/v3/playlists?part=snippet'
+  + '&id=' + playlistId
+  + '&key=' + YouTubeKey,{
+    method: 'get'
+  })
+  .then(res =>  res.json())
+  .catch(error => console.log(error))
+}
+
+function playnowToast(title)
+{
+  M.toast({html: 'Playing Now: ' + title, classes: 'rounded'});
+}
+
+function queueToast(title)
+{
+  M.toast({html: 'Added to Queue: ' + title, classes: 'rounded'});
+}
+
+function removeToast(title)
+{
+  M.toast({html: 'Removed from Queue', classes: 'rounded'});
+}
+
+function playlistToast(title)
+{
+  M.toast({html: 'Playlist added to song queue: ' + title, classes: 'rounded'});
+}

@@ -4,10 +4,10 @@
 
 // Variables
 playback = 
-"<div class=\"row\">" +
-"<br><br>"+
-    "<div class=\"col s4 offset-s4\">" +
-    "<h2 class=\"header\">Playback</h2>" +
+"<div id=\"playback-container\" class=\"row\">" +
+    "<div class=\"col s4 offset-s1\">" +
+    "<br><br>" +
+    "<h4 class=\"header\">Now Playing</h4>" +
         "<div class=\"row purple darken-1 wrapper\">" +
             "<div class=\"card horizontal grey lighten-5\">" + 
                 "<div class=\"card-image\">" +
@@ -164,7 +164,43 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         document.getElementById("trackName").innerHTML = trackName;
         document.getElementById("albumName").innerHTML = albumName;
         document.getElementById("artistName").innerHTML = artistName;
-    
+
+        //Change DOM and display next track information
+        let nexttrackName = state.track_window.next_tracks[0].name;
+        let nextalbumName = state.track_window.next_tracks[0].album.name;
+        let nextartistName = state.track_window.next_tracks[0].artists
+                        .map(artist => artist.name)
+                        .join(", ");
+        let nextalbumArt = state.track_window.next_tracks[0].album.images[0].url;
+
+        insertNext();
+
+        document.getElementById("nextalbumArt").src = nextalbumArt;
+        document.getElementById("nexttrackName").innerHTML = nexttrackName;
+        document.getElementById("nextalbumName").innerHTML = nextalbumName;
+        document.getElementById("nextartistName").innerHTML = nextartistName;
+
+        //Change DOM and display previous track information
+        //If previous track exists add it
+
+        if(state.track_window.previous_tracks[0] != null)
+        {
+            let prevtrackName = state.track_window.previous_tracks[1].name;
+            let prevalbumName = state.track_window.previous_tracks[1].album.name;
+            let prevartistName = state.track_window.previous_tracks[1].artists
+                            .map(artist => artist.name)
+                            .join(", ");
+            let prevalbumArt = state.track_window.previous_tracks[1].album.images[0].url;
+
+            insertPrev();
+
+            document.getElementById("prevalbumArt").src = prevalbumArt;
+            document.getElementById("prevtrackName").innerHTML = prevtrackName;
+            document.getElementById("prevalbumName").innerHTML = prevalbumName;
+            document.getElementById("prevartistName").innerHTML = prevartistName;
+        }
+
+
     });
   
     //Ready
@@ -197,4 +233,75 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     {
         player.nextTrack();
     };
+}
+
+function insertPrev()
+{
+    div = document.createElement("div"); 
+
+    var id = document.createAttribute("id");
+    id.value = "previous";                           
+    div.setAttributeNode(id);
+  
+    var att = document.createAttribute("class");
+    att.value = "col s2 offset-s1";                           
+    div.setAttributeNode(att);
+  
+    var row = document.getElementById("playback-container");
+    row.insertBefore(div, row.childNodes[0]);
+  
+    document.getElementById("previous").innerHTML =
+    "<br><br><br><br><br>" +
+    "<h4 class=\"header\">Previous</h4>" +
+        "<div class=\"row pink wrapper\">" +
+            "<div id=\"prevTrack\" class=\"card hoverable horizontal grey lighten-5\">" + 
+                "<div class=\"card-image\">" +
+                    "<img id=\"prevalbumArt\" src=\"\">" +
+                "</div>" +
+                "<div class=\"card-stacked\">" +
+                    "<div class=\"card-content\">" +
+                        "<h5 id=\"prevtrackName\"></h5>" +
+                        "<h6 id=\"prevalbumName\"></h6>" +
+                        "<h6 id=\"prevartistName\"></h6>" +
+                    "</div>" +
+                "</div>" +
+            "</div>" +
+        "</div>" +
+    "</div>";
+
+}
+
+function insertNext()
+{
+    div = document.createElement("div"); 
+
+    var id = document.createAttribute("id");
+    id.value = "next";                           
+    div.setAttributeNode(id);
+  
+    var att = document.createAttribute("class");
+    att.value = "col s2 offset-s1";                           
+    div.setAttributeNode(att);
+  
+    var row = document.getElementById("playback-container");
+    row.appendChild(div)
+    
+    document.getElementById("next").innerHTML =
+    "<br><br><br><br><br>" +
+    "<h4 class=\"header\">Next</h4>" +
+        "<div class=\"row pink wrapper\">" +
+            "<div id=\"nextTrack\" class=\"card hoverable horizontal grey lighten-5\">" + 
+                "<div class=\"card-image\">" +
+                    "<img id=\"nextalbumArt\" src=\"\">" +
+                "</div>" +
+                "<div class=\"card-stacked\">" +
+                    "<div class=\"card-content\">" +
+                        "<h5 id=\"nexttrackName\"></h5>" +
+                        "<h6 id=\"nextalbumName\"></h6>" +
+                        "<h6 id=\"nextartistName\"></h6>" +
+                    "</div>" +
+                "</div>" +
+            "</div>" +
+        "</div>" +
+    "</div>";
 }
