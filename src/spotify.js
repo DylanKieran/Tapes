@@ -216,7 +216,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     //Connect to the player!
     player.connect();
 
-    //Click event for previous track button 
+    /*/Click event for previous track button 
     document.getElementById("prev").onclick = function()
     {
         player.previousTrack();
@@ -232,7 +232,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     document.getElementById("next").onclick = function()
     {
         player.nextTrack();
-    };
+    };*/
 }
 
 function insertPrev()
