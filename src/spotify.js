@@ -18,6 +18,28 @@ playback =
                         "<h3 id=\"trackName\"></h3>" +
                         "<h6 id=\"albumName\"></h6>" +
                         "<h6 id=\"artistName\"></h6>" +
+                        "<br><br><br><br>" + 
+                        "<div class=\"col s11 offset-s1\">" +
+
+                        "<div class=\"row\">" + 
+                        "<div class=\"center-align col s11\">" +
+                            "<div class=\"col s6\">" +
+                                "<i id=\"volDown\" class=\"material-icons pink-text\">volume_mute</i>" +
+                                "<br>" +
+                                "<p>Volume Down</p>" +
+                            "</div>" +
+                            "<div class=\"col s6\">" +
+                                "<i id=\"volUp\" class=\"material-icons pink-text\">volume_up</i>" +
+                                "<br>" +
+                                "<p>Volume Up</p>" +
+                            "</div>" +
+                            "</div>" +
+                        "</div>" +
+
+                        "<i id=\"prev\" class=\"col s3 material-icons medium purple-text text-darken-1\">fast_rewind</i>" + 
+                        "<i id=\"play\" class=\"col s3 offset-s1 material-icons medium purple-text text-darken-1\">play_arrow</i>" + 
+                        "<i id=\"next\" class=\"col s3 offset-s1 material-icons medium purple-text text-darken-1\">fast_forward</i>" + 
+                        "</div>" + 
                     "</div>" +
                 "</div>" +
             "</div>" +
@@ -74,7 +96,7 @@ if(accessToken.length > 1)
     .then(res =>  res.json())
     .then(function(res) {
         console.log(res);
-        document.getElementById("signin").src = res.images[0].url;
+        //document.getElementById("signin").src = res.images[0].url;
         document.getElementById("playback").innerHTML = instructions;
     });
 }
@@ -165,24 +187,29 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         document.getElementById("albumName").innerHTML = albumName;
         document.getElementById("artistName").innerHTML = artistName;
 
+        playerEvents()
+
         //Change DOM and display next track information
-        let nexttrackName = state.track_window.next_tracks[0].name;
-        let nextalbumName = state.track_window.next_tracks[0].album.name;
-        let nextartistName = state.track_window.next_tracks[0].artists
-                        .map(artist => artist.name)
-                        .join(", ");
-        let nextalbumArt = state.track_window.next_tracks[0].album.images[0].url;
+        //If next track exists add it
+        if(state.track_window.next_tracks[0] != null)
+        {
+            let nexttrackName = state.track_window.next_tracks[0].name;
+            let nextalbumName = state.track_window.next_tracks[0].album.name;
+            let nextartistName = state.track_window.next_tracks[0].artists
+                            .map(artist => artist.name)
+                            .join(", ");
+            let nextalbumArt = state.track_window.next_tracks[0].album.images[0].url;
 
-        insertNext();
+            insertNext();
 
-        document.getElementById("nextalbumArt").src = nextalbumArt;
-        document.getElementById("nexttrackName").innerHTML = nexttrackName;
-        document.getElementById("nextalbumName").innerHTML = nextalbumName;
-        document.getElementById("nextartistName").innerHTML = nextartistName;
+            document.getElementById("nextalbumArt").src = nextalbumArt;
+            document.getElementById("nexttrackName").innerHTML = nexttrackName;
+            document.getElementById("nextalbumName").innerHTML = nextalbumName;
+            document.getElementById("nextartistName").innerHTML = nextartistName;
+        }
 
         //Change DOM and display previous track information
         //If previous track exists add it
-
         if(state.track_window.previous_tracks[0] != null)
         {
             let prevtrackName = state.track_window.previous_tracks[1].name;
@@ -199,8 +226,6 @@ window.onSpotifyWebPlaybackSDKReady = () => {
             document.getElementById("prevalbumName").innerHTML = prevalbumName;
             document.getElementById("prevartistName").innerHTML = prevartistName;
         }
-
-
     });
   
     //Ready
@@ -216,23 +241,59 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     //Connect to the player!
     player.connect();
 
-    /*/Click event for previous track button 
-    document.getElementById("prev").onclick = function()
+    function playerEvents()
     {
-        player.previousTrack();
-    };
+        //Click event for previous track button 
+        document.getElementById("prev").onclick = function()
+        {
+            player.previousTrack();
+        };
 
-    //Click event for play/pause button 
-    document.getElementById("play").onclick = function()
-    {
-        player.togglePlay();
-    };
+        //Click event for play/pause button 
+        document.getElementById("play").onclick = function()
+        {
+            player.togglePlay();
+        };
 
-    //Click event for next track button 
-    document.getElementById("next").onclick = function()
-    {
-        player.nextTrack();
-    };*/
+        //Click event for next track button 
+        document.getElementById("next").onclick = function()
+        {
+            player.nextTrack();
+        };
+
+        let vol = 0.05;
+
+        //Volume Down
+        document.getElementById("volDown").onclick = function()
+        {
+            if(vol <= 0)
+            {
+                vol = 0;
+            }
+            else
+            {
+                vol = vol - 0.05;
+                player.setVolume(vol).catch(error => console.log(error));
+            }
+            console.log(vol);
+        };
+
+        //Volume Up
+        document.getElementById("volUp").onclick = function()
+        {
+            if(vol >= 1)
+            {
+                vol = 1
+            }
+            else
+            {
+                vol = vol + 0.05;
+                player.setVolume(vol).catch(error => console.log(error));
+            }
+            console.log(vol);
+        };
+        player.setVolume(vol)
+    }
 }
 
 function insertPrev()
@@ -276,7 +337,7 @@ function insertNext()
     div = document.createElement("div"); 
 
     var id = document.createAttribute("id");
-    id.value = "next";                           
+    id.value = "nexttrack";                           
     div.setAttributeNode(id);
   
     var att = document.createAttribute("class");
@@ -286,7 +347,7 @@ function insertNext()
     var row = document.getElementById("playback-container");
     row.appendChild(div)
     
-    document.getElementById("next").innerHTML =
+    document.getElementById("nexttrack").innerHTML =
     "<br><br><br><br><br>" +
     "<h4 class=\"header\">Next</h4>" +
         "<div class=\"row pink wrapper\">" +
