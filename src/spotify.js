@@ -18,20 +18,20 @@ playback =
                         "<h3 id=\"trackName\"></h3>" +
                         "<h6 id=\"albumName\"></h6>" +
                         "<h6 id=\"artistName\"></h6>" +
-                        "<br><br><br><br>" + 
+                        "<br><br>" + 
                         "<div class=\"col s11 offset-s1\">" +
 
                         "<div class=\"row\">" + 
-                        "<div class=\"center-align col s11\">" +
+                        "<div class=\"center-align col s12\">" +
                             "<div class=\"col s6\">" +
                                 "<i id=\"volDown\" class=\"material-icons pink-text\">volume_mute</i>" +
                                 "<br>" +
-                                "<p>Volume Down</p>" +
+                                "<p>Volume <br> Down</p>" +
                             "</div>" +
                             "<div class=\"col s6\">" +
                                 "<i id=\"volUp\" class=\"material-icons pink-text\">volume_up</i>" +
                                 "<br>" +
-                                "<p>Volume Up</p>" +
+                                "<p>Volume <br> Up</p>" +
                             "</div>" +
                             "</div>" +
                         "</div>" +
