@@ -1,7 +1,3 @@
-//document.getElementById("trackName").innerHTML = "";
-//document.getElementById("albumName").innerHTML = "";
-//document.getElementById("artistName").innerHTML = "";
-
 // Variables
 playback = 
 "<div id=\"playback-container\" class=\"row\">" +
@@ -45,6 +41,16 @@ playback =
             "</div>" +
         "</div>" +
     "</div>" +
+"</div>" + 
+
+"<div>" + 
+    "<br><br><br>" + 
+    "<div class=\"row\">" +
+        "<h3 class=\"center-align\">Song Recommendations</h3>" +
+        "<br>" + 
+        "<div id=\"recommendations\" class=\"col s10 offset-s1\">"+
+        "</div>" + 
+    "</div>" + 
 "</div>";
 
 instructions = 
@@ -179,6 +185,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
                         .map(artist => artist.name)
                         .join(", ");
         let albumArt = state.track_window.current_track.album.images[2].url;
+        let trackid = state.track_window.current_track.id;
 
         document.getElementById("playback").innerHTML = playback;
 
@@ -187,7 +194,12 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         document.getElementById("albumName").innerHTML = albumName;
         document.getElementById("artistName").innerHTML = artistName;
 
-        playerEvents()
+        playerEvents();
+
+        getRecommendations(trackid,accessToken).then(function(res)
+        {
+            insertRecommendations(res);
+        });
 
         //Change DOM and display next track information
         //If next track exists add it
@@ -365,4 +377,45 @@ function insertNext()
             "</div>" +
         "</div>" +
     "</div>";
+}
+
+function getRecommendations(trackid, accessToken)
+{
+    url="https://api.spotify.com/v1/recommendations?"
+
+    return fetch(url + "seed_tracks=" + trackid,{
+        method: 'get',
+        headers: { 'Authorization': 'Bearer ' + accessToken}})
+    .then(res => res.json())
+    .catch(error => console.log(error));
+}
+
+function insertRecommendations(res)
+{
+    document.getElementById("recommendations").innerHTML = null;
+
+    for(let i=0; i<12; i++)
+    {
+        console.log(res);
+        let trackName = res.tracks[i].name;
+        let albumName = res.tracks[i].album.name;
+        let artistName = res.tracks[i].artists
+                        .map(artist => artist.name)
+                        .join(", ");
+        let albumArt = res.tracks[i].album.images[0].url;
+
+        document.getElementById("recommendations").innerHTML += 
+        "<div class=\"col s2\">" +
+            "<div class=\"card\">" +
+                "<div class=\"card-image\">" +
+                    "<img src=\"" + albumArt + "\">" +
+                "</div>" +
+                "<div class=\"card-content\">" +
+                    "<h5 class=\"truncate\">" + trackName + "</h5>" +
+                    "<h6 class=\"truncate\">" + albumName + "</h6>" +
+                    "<h6 class=\"truncate\">" + artistName + "</h6>" +
+                "</div>" +
+            "</div>" +
+        "</div>";
+    }
 }

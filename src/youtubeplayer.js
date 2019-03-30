@@ -329,3 +329,41 @@ function playlistToast(title)
 {
   M.toast({html: 'Playlist added to song queue: ' + title, classes: 'rounded'});
 }
+
+retrievePlaylistitems("PLkeJUKeiOn-eIm2wCIWJGN-L7xFu4GDhu").then(function(res)
+{
+  console.log(res);
+
+  document.getElementById("pop-playlist").innerHTML = null;
+
+  for(let i=0; i<50; i++)
+  {
+      document.getElementById("pop-playlist").innerHTML += 
+      "<li id=\"" + res.items[0].id.videoId + "\" class=\"collection-item avatar\">" +
+      "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].id.videoId + "')\">" +
+      "<div class=\"col s10 offset-s1\">" +
+      "<p class=\"title\">" + res.items[i].snippet.title + "</p>" +
+      "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].id.videoId + "')\">add_to_queue</i>" +
+      "</div>" +
+      "</li>";
+  }
+})
+
+retrievePlaylistitems("PLuUrokoVSxlfUJuJB_D8j_wsFR4exaEmy").then(function(res)
+{
+  console.log(res);
+
+  document.getElementById("rap-playlist").innerHTML = null;
+
+  for(let i=0; i<50; i++)
+  {
+      document.getElementById("rap-playlist").innerHTML += 
+      "<li id=\"" + res.items[0].id.videoId + "\" class=\"collection-item avatar\">" +
+      "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].id.videoId + "')\">" +
+      "<div class=\"col s10 offset-s1\">" +
+      "<p class=\"title\">" + res.items[i].snippet.title + "</p>" +
+      "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].id.videoId + "')\">add_to_queue</i>" +
+      "</div>" +
+      "</li>";
+  }
+})
