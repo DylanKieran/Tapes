@@ -1,12 +1,6 @@
 // Redo this API Key part
 LastFMKey = "dbde17b3ffb13c8656d3d2bc5e6ee583";
 
-function work(videoId)
-{
-  console.log(videoId)
-  //window.location.href = "http://localhost:8080/youtubeplayer.html?videoId=" + videoId;
-}
-
 // Call Top Songs function that will display Top Songs to screen
 getTopSongs().then(function(res)
 {

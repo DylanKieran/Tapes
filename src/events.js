@@ -32,7 +32,7 @@ returnEvents().then(function(res)
             document.getElementById("event-list").innerHTML += 
             "<li class=\"collection-item avatar\">" +
             "<img src=\"" + res._embedded.events[i].images[7].url + "\" alt=\"\" class=\"circle\">" +
-            "<div class=\"col s12 offset-s1\">" +
+            "<div class=\"col s8 offset-s1\">" +
             "<span class=\"title\">" + res._embedded.events[i].name + "</span>" +
             "<p class=\"truncate title\">" + date1 + "<br></p>" +
             "</p>" + res._embedded.events[i]._embedded.venues[0].name +

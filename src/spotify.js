@@ -79,6 +79,8 @@ instructions =
     "</div>" +
 "</div>";
 
+deviceId = "";
+
 //Click event for sign in functionality
 let login = document.getElementById("signin").onclick = function() 
 {
@@ -104,46 +106,6 @@ if(accessToken.length > 1)
         console.log(res);
         //document.getElementById("signin").src = res.images[0].url;
         document.getElementById("playback").innerHTML = instructions;
-    });
-}
-
-/*/Click event for search button 
-document.getElementById("search").onclick = function()
-{
-    let query = document.getElementById("query").value;
-    console.log(query);
-    Search(accessToken,query, 10);
-};*/
-
-//Search function to search for artist/track
-function Search(accessToken, query, limit)
-{
-    fetch('https://api.spotify.com/v1/search?q=' 
-    + query 
-    + '&type=' + 'track%2Cartist' 
-    + '&market=US' 
-    + '&limit=' + limit 
-    + '&offset=5', {
-        method: 'get',
-        headers: { 'Authorization': 'Bearer ' + accessToken},
-    })
-    .then(res =>  res.json())
-    .then(function(res) {
- 
-        console.log(res);
-        document.getElementById("results").innerHTML = null;
-
-        //Loop through search results and display them on screen
-        for(let i=0; i<10; i++)
-        {
-            document.getElementById("results").innerHTML += "<div class=\"result\"><img class=\"artWork\" src="
-            + res.tracks.items[i].album.images[2].url + ">" 
-            + "<h1>" + res.tracks.items[i].name + "</h1>"
-            + "<h2>" + res.tracks.items[i].album.name + "</h2>"
-            + "<h3>" + res.tracks.items[i].artists.map(artist => artist.name).join(", ") + "</h3>"
-            + "</div>";
-        }
-
     });
 }
 
@@ -243,6 +205,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     //Ready
     player.addListener('ready', ({ device_id }) => {
       console.log('Ready with Device ID', device_id);
+      playSong(device_id, accessToken);
     });
   
     //Not Ready
@@ -396,7 +359,7 @@ function insertRecommendations(res)
 
     for(let i=0; i<12; i++)
     {
-        console.log(res);
+        //console.log(res);
         let trackName = res.tracks[i].name;
         let albumName = res.tracks[i].album.name;
         let artistName = res.tracks[i].artists
@@ -418,4 +381,58 @@ function insertRecommendations(res)
             "</div>" +
         "</div>";
     }
+}
+
+/*/Click event for search button 
+document.getElementById("search").onclick = function()
+{
+    let query = document.getElementById("query").value;
+    console.log(query);
+    Search(accessToken,query, 10);
+};*/
+
+//Search function to search for artist/track
+function Search(accessToken, query, limit)
+{
+    fetch('https://api.spotify.com/v1/search?q=' 
+    + query 
+    + '&type=' + 'track%2Cartist' 
+    + '&market=US' 
+    + '&limit=' + limit 
+    + '&offset=5', {
+        method: 'get',
+        headers: { 'Authorization': 'Bearer ' + accessToken},
+    })
+    .then(res =>  res.json())
+    .then(function(res) {
+ 
+        console.log(res);
+        document.getElementById("results").innerHTML = null;
+
+        //Loop through search results and display them on screen
+        for(let i=0; i<10; i++)
+        {
+            document.getElementById("results").innerHTML += "<div class=\"result\"><img class=\"artWork\" src="
+            + res.tracks.items[i].album.images[2].url + ">" 
+            + "<h1>" + res.tracks.items[i].name + "</h1>"
+            + "<h2>" + res.tracks.items[i].album.name + "</h2>"
+            + "<h3>" + res.tracks.items[i].artists.map(artist => artist.name).join(", ") + "</h3>"
+            + "</div>";
+        }
+
+    });
+}
+
+function playSong(deviceId, accessToken)
+{
+    url = "https://api.spotify.com/v1/me/player/play?device_id=" + deviceId;
+    data = {"uris": ["spotify:track:6gBFPUFcJLzWGx4lenP6h2"]};
+
+    fetch(url,{
+        method: 'put',
+        headers: { 'Authorization': 'Bearer ' + accessToken},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .catch(error => console.log(error))
 }

@@ -23,15 +23,9 @@ player = new YT.Player('player', {
   });
 }
 
-/*document.getElementById("video").onclick = function(){
-  player.loadVideoById({'videoId': 'cwQgjq0mCdE',
-  'startSeconds': 5,
-  'suggestedQuality': 'large'});
-}*/
-
 //The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-  //event.target.playVideo();  /*Uncomment to autoplay video*/
+  event.target.playVideo();  /*Uncomment to autoplay video*/
 }
 
 function onPlayerError(e){
@@ -203,8 +197,6 @@ youtubetopSongs().then(function(res)
 function youtubeSearch(YouTubeKey, youtubeQuery, maxResults)
 {
     let q = youtubeQuery.split(' ').join('+');
-    let arrayRes = [];
-    let id = 0;
 
     return fetch('https://www.googleapis.com/youtube/v3/search?part=snippet'
     + '&maxResults=' + maxResults
@@ -234,10 +226,12 @@ document.getElementById("searchYoutube").onclick = function()
             {
               document.getElementById("search-results").innerHTML += 
               "<li id=\"" + res.items[0].id.videoId + "\" class=\"collection-item avatar\">" +
-              "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].id.videoId + "')\">" +
+              "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\"" +
+              "class=\"circle\" onclick=\"addtoqueue('" + res.items[i].id.videoId + "')\">" +
               "<div class=\"col s10 offset-s1\">" +
               "<p class=\"title\">" + res.items[i].snippet.title + "</p>" +
-              "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].id.videoId + "')\">add_to_queue</i>" +
+              "<i class=\"secondary-content material-icons small pink-text\"" +
+              "onclick=\"addtoQueue('" + res.items[i].id.videoId + "')\">add_to_queue</i>" +
               "</div>" +
               "</li>";
               id++;
@@ -339,11 +333,11 @@ retrievePlaylistitems("PLkeJUKeiOn-eIm2wCIWJGN-L7xFu4GDhu").then(function(res)
   for(let i=0; i<50; i++)
   {
       document.getElementById("pop-playlist").innerHTML += 
-      "<li id=\"" + res.items[0].id.videoId + "\" class=\"collection-item avatar\">" +
-      "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].id.videoId + "')\">" +
+      "<li id=\"" + res.items[i].snippet.resourceId.videoId + "\" class=\"collection-item avatar\">" +
+      "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].snippet.resourceId.videoId + "')\">" +
       "<div class=\"col s10 offset-s1\">" +
       "<p class=\"title\">" + res.items[i].snippet.title + "</p>" +
-      "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].id.videoId + "')\">add_to_queue</i>" +
+      "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].snippet.resourceId.videoId + "')\">add_to_queue</i>" +
       "</div>" +
       "</li>";
   }
@@ -358,11 +352,11 @@ retrievePlaylistitems("PLuUrokoVSxlfUJuJB_D8j_wsFR4exaEmy").then(function(res)
   for(let i=0; i<50; i++)
   {
       document.getElementById("rap-playlist").innerHTML += 
-      "<li id=\"" + res.items[0].id.videoId + "\" class=\"collection-item avatar\">" +
-      "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].id.videoId + "')\">" +
+      "<li id=\"" + res.items[i].snippet.resourceId.videoId + "\" class=\"collection-item avatar\">" +
+      "<img src=\"" + res.items[i].snippet.thumbnails.high.url + "\" alt=\"\" class=\"circle\" onclick=\"addtoqueue('" + res.items[i].snippet.resourceId.videoId + "')\">" +
       "<div class=\"col s10 offset-s1\">" +
       "<p class=\"title\">" + res.items[i].snippet.title + "</p>" +
-      "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].id.videoId + "')\">add_to_queue</i>" +
+      "<i class=\"secondary-content material-icons small pink-text\" onclick=\"addtoQueue('" + res.items[i].snippet.resourceId.videoId + "')\">add_to_queue</i>" +
       "</div>" +
       "</li>";
   }
