@@ -25,7 +25,18 @@ player = new YT.Player('player', {
 
 //The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-  event.target.playVideo();  /*Uncomment to autoplay video*/
+  if(window.location.hash == '')
+  {
+    event.target.playVideo();  /*Uncomment to autoplay video*/
+  }
+  else
+  {
+    let hash = window.location.hash;
+    let videoid = hash.slice(1);
+    addtoQueue(videoid);
+    player.loadVideoById(videoid);
+    addQueue();
+  }
 }
 
 function onPlayerError(e){

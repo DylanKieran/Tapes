@@ -1,57 +1,72 @@
 // Variables
 playback = 
 "<div id=\"playback-container\" class=\"row\">" +
+
+    "<div id=\"previous\" class=\"col s2 offset-s1\"></div>"+
+
     "<div class=\"col s4 offset-s1\">" +
-    "<br><br>" +
-    "<h4 class=\"header\">Now Playing</h4>" +
+        "<h4 class=\"header\">Now Playing</h4>" +
         "<div class=\"row purple darken-1 wrapper\">" +
-            "<div class=\"card horizontal grey lighten-5\">" + 
+            "<div class=\"card horizontal grey lighten-5\">" +
+
                 "<div class=\"card-image\">" +
                     "<img id=\"albumArt\" src=\"\">" +
                 "</div>" +
+
                 "<div class=\"card-stacked\">" +
                     "<div class=\"card-content\">" +
-                        "<h3 id=\"trackName\"></h3>" +
-                        "<h6 id=\"albumName\"></h6>" +
-                        "<h6 id=\"artistName\"></h6>" +
-                        "<br><br>" + 
-                        "<div class=\"col s11 offset-s1\">" +
-
-                        "<div class=\"row\">" + 
-                        "<div class=\"center-align col s12\">" +
-                            "<div class=\"col s6\">" +
-                                "<i id=\"volDown\" class=\"material-icons pink-text\">volume_mute</i>" +
-                                "<br>" +
-                                "<p>Volume <br> Down</p>" +
-                            "</div>" +
-                            "<div class=\"col s6\">" +
-                                "<i id=\"volUp\" class=\"material-icons pink-text\">volume_up</i>" +
-                                "<br>" +
-                                "<p>Volume <br> Up</p>" +
-                            "</div>" +
-                            "</div>" +
-                        "</div>" +
-
-                        "<i id=\"prev\" class=\"col s3 material-icons medium purple-text text-darken-1\">fast_rewind</i>" + 
-                        "<i id=\"play\" class=\"col s3 offset-s1 material-icons medium purple-text text-darken-1\">play_arrow</i>" + 
-                        "<i id=\"next\" class=\"col s3 offset-s1 material-icons medium purple-text text-darken-1\">fast_forward</i>" + 
-                        "</div>" + 
-                    "</div>" +
+                        "<h3 class=\"title\" id=\"trackName\"></h3>" +
+                        "<h6 class=\"title\" id=\"albumName\"></h6>" +
+                        "<h6 class=\"title\" id=\"artistName\"></h6>" +
+                    "</div>" + 
                 "</div>" +
             "</div>" +
+
+            "<div class=\"col s10 offset-s1 card horizontal purple darken-1\">" +
+                "<i id=\"volDown\" class=\"col s2 material-icons white-text\">volume_mute</i>" +
+                "<i id=\"prev\" class=\"col s2 material-icons small white-text\">fast_rewind</i>" + 
+                "<i id=\"play\" class=\"col s2 material-icons small white-text\">play_arrow</i>" + 
+                "<i id=\"next\" class=\"col s2 material-icons small white-text\">fast_forward</i>" + 
+                "<i id=\"volUp\" class=\"col s2 material-icons white-text\">volume_up</i>" +
+            "</div>" + 
         "</div>" +
+
     "</div>" +
+
+    "<div id=\"nexttrack\" class=\"col s2 offset-s1\"></div>"+
+
 "</div>" + 
 
-"<div>" + 
-    "<br><br><br>" + 
-    "<div class=\"row\">" +
-        "<h3 class=\"center-align\">Song Recommendations</h3>" +
-        "<br>" + 
-        "<div id=\"recommendations\" class=\"col s10 offset-s1\">"+
-        "</div>" + 
-    "</div>" + 
-"</div>";
+    "<div id=\"search-container\">" +
+        "<div class=\"row\">" +
+        "<h4 class=\"center-align\">Search</h4>" +
+            "<div class=\"col s6 offset-s3 input-field\">" +
+                "<input type=\"search\" id=\"query\" placeholder=\"Search ...\"/>" +
+                "<i id=\"searchSpotify\" onclick=\"search()\" class=\"material-icons pink-text\">search</i>" +
+            "</div>" +
+        "</div>" +
+        "<div class=\"row\">" +
+            "<div id=\"search-results\" class=\"col s10 offset-s1\"></div>" +
+        "</div>" +
+    "</div>" +
+
+    "<div id=\"rec-lists-container\">" +
+        "<div class=\"row\">" +
+
+            "<div class=\"col s6\">" +
+                "<h4 class=\"center-align\">Song Recommendations</h4>" +
+                "<br>" +
+                "<div id=\"recommendations\" class=\"col s12\"></div>" +
+            "</div>" +
+
+            "<div class=\"col s6\">" +
+                "<h4 class=\"center-align\">Playlists</h4>" +
+                "<br>" +
+                "<div id=\"playlists\" class=\"col s12\"></div>" +
+            "</div>" +
+
+        "</div>" +
+    "</div>";
 
 instructions = 
 "<div class=\"row\">" + 
@@ -78,14 +93,6 @@ instructions =
         "</div>" +
     "</div>" +
 "</div>";
-
-deviceId = "";
-
-//Click event for sign in functionality
-let login = document.getElementById("signin").onclick = function() 
-{
-    location.href = "http://localhost:8888/login";
-}
 
 //Parse authentication token passed from server to client via browser url and store in local storage
 let parsed = window.location.search.substr(1);
@@ -163,9 +170,15 @@ window.onSpotifyWebPlaybackSDKReady = () => {
             insertRecommendations(res);
         });
 
+        insertPlaylists();
+
         //Change DOM and display next track information
         //If next track exists add it
-        if(state.track_window.next_tracks[0] != null)
+        if(state.track_window.next_tracks[0] == null)
+        {
+            document.getElementById("nexttrack").innerHTML = null;
+        }
+        else
         {
             let nexttrackName = state.track_window.next_tracks[0].name;
             let nextalbumName = state.track_window.next_tracks[0].album.name;
@@ -184,7 +197,11 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 
         //Change DOM and display previous track information
         //If previous track exists add it
-        if(state.track_window.previous_tracks[0] != null)
+        if(state.track_window.previous_tracks[0] == null)
+        {
+            document.getElementById("previous").innerHTML = null;
+        }
+        else if(state.track_window.previous_tracks[1] != null)
         {
             let prevtrackName = state.track_window.previous_tracks[1].name;
             let prevalbumName = state.track_window.previous_tracks[1].album.name;
@@ -192,6 +209,22 @@ window.onSpotifyWebPlaybackSDKReady = () => {
                             .map(artist => artist.name)
                             .join(", ");
             let prevalbumArt = state.track_window.previous_tracks[1].album.images[0].url;
+
+            insertPrev();
+
+            document.getElementById("prevalbumArt").src = prevalbumArt;
+            document.getElementById("prevtrackName").innerHTML = prevtrackName;
+            document.getElementById("prevalbumName").innerHTML = prevalbumName;
+            document.getElementById("prevartistName").innerHTML = prevartistName;
+        }
+        else
+        {
+            let prevtrackName = state.track_window.previous_tracks[0].name;
+            let prevalbumName = state.track_window.previous_tracks[0].album.name;
+            let prevartistName = state.track_window.previous_tracks[0].artists
+                            .map(artist => artist.name)
+                            .join(", ");
+            let prevalbumArt = state.track_window.previous_tracks[0].album.images[0].url;
 
             insertPrev();
 
@@ -273,33 +306,17 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 
 function insertPrev()
 {
-    div = document.createElement("div"); 
-
-    var id = document.createAttribute("id");
-    id.value = "previous";                           
-    div.setAttributeNode(id);
-  
-    var att = document.createAttribute("class");
-    att.value = "col s2 offset-s1";                           
-    div.setAttributeNode(att);
-  
-    var row = document.getElementById("playback-container");
-    row.insertBefore(div, row.childNodes[0]);
-  
     document.getElementById("previous").innerHTML =
-    "<br><br><br><br><br>" +
     "<h4 class=\"header\">Previous</h4>" +
         "<div class=\"row pink wrapper\">" +
-            "<div id=\"prevTrack\" class=\"card hoverable horizontal grey lighten-5\">" + 
+            "<div id=\"prevTrack\" class=\"card hoverable grey lighten-5\">" + 
                 "<div class=\"card-image\">" +
                     "<img id=\"prevalbumArt\" src=\"\">" +
                 "</div>" +
-                "<div class=\"card-stacked\">" +
-                    "<div class=\"card-content\">" +
-                        "<h5 id=\"prevtrackName\"></h5>" +
-                        "<h6 id=\"prevalbumName\"></h6>" +
-                        "<h6 id=\"prevartistName\"></h6>" +
-                    "</div>" +
+                "<div class=\"card-content\">" +
+                    "<h5 id=\"prevtrackName\"></h5>" +
+                    "<p class=\"truncate\" id=\"prevalbumName\"></p>" +
+                    "<p class=\"truncate\" id=\"prevartistName\"></p>" +
                 "</div>" +
             "</div>" +
         "</div>" +
@@ -309,33 +326,17 @@ function insertPrev()
 
 function insertNext()
 {
-    div = document.createElement("div"); 
-
-    var id = document.createAttribute("id");
-    id.value = "nexttrack";                           
-    div.setAttributeNode(id);
-  
-    var att = document.createAttribute("class");
-    att.value = "col s2 offset-s1";                           
-    div.setAttributeNode(att);
-  
-    var row = document.getElementById("playback-container");
-    row.appendChild(div)
-    
     document.getElementById("nexttrack").innerHTML =
-    "<br><br><br><br><br>" +
     "<h4 class=\"header\">Next</h4>" +
         "<div class=\"row pink wrapper\">" +
-            "<div id=\"nextTrack\" class=\"card hoverable horizontal grey lighten-5\">" + 
+            "<div id=\"nextTrack\" class=\"card hoverable grey lighten-5\">" + 
                 "<div class=\"card-image\">" +
                     "<img id=\"nextalbumArt\" src=\"\">" +
                 "</div>" +
-                "<div class=\"card-stacked\">" +
-                    "<div class=\"card-content\">" +
-                        "<h5 id=\"nexttrackName\"></h5>" +
-                        "<h6 id=\"nextalbumName\"></h6>" +
-                        "<h6 id=\"nextartistName\"></h6>" +
-                    "</div>" +
+                "<div class=\"card-content\">" +
+                    "<h5 id=\"nexttrackName\"></h5>" +
+                    "<p class=\"truncate\" id=\"nextalbumName\"></p>" +
+                    "<p class=\"truncate\" id=\"nextartistName\"></p>" +
                 "</div>" +
             "</div>" +
         "</div>" +
@@ -357,7 +358,7 @@ function insertRecommendations(res)
 {
     document.getElementById("recommendations").innerHTML = null;
 
-    for(let i=0; i<12; i++)
+    for(let i=0; i<6; i++)
     {
         //console.log(res);
         let trackName = res.tracks[i].name;
@@ -366,12 +367,13 @@ function insertRecommendations(res)
                         .map(artist => artist.name)
                         .join(", ");
         let albumArt = res.tracks[i].album.images[0].url;
+        let trackuri = res.tracks[i].uri;
 
         document.getElementById("recommendations").innerHTML += 
-        "<div class=\"col s2\">" +
+        "<div class=\"col s4\">" +
             "<div class=\"card\">" +
                 "<div class=\"card-image\">" +
-                    "<img src=\"" + albumArt + "\">" +
+                    "<img onclick=\"playSong('" + trackuri + "')\" src=\"" + albumArt + "\">" +
                 "</div>" +
                 "<div class=\"card-content\">" +
                     "<h5 class=\"truncate\">" + trackName + "</h5>" +
@@ -383,22 +385,57 @@ function insertRecommendations(res)
     }
 }
 
-/*/Click event for search button 
-document.getElementById("search").onclick = function()
+function getPlaylists()
+{
+    url="https://api.spotify.com/v1/me/playlists"
+
+    return fetch(url,{
+        method: 'get',
+        headers: { 'Authorization': 'Bearer ' + accessToken}})
+    .then(res => res.json())
+    .catch(error => console.log(error));
+}
+
+function insertPlaylists()
+{
+    getPlaylists().then(function(res)
+    {
+        document.getElementById("playlists").innerHTML = null;
+        for(let i=0; i<6; i++)
+        {
+            //console.log(res);
+            let playlistName = res.items[i].name;
+            let playlistArt = res.items[i].images[0].url;
+            let playlisturi = res.items[i].uri;
+            let playlistCreator = res.items[i].owner.display_name;
+    
+            document.getElementById("playlists").innerHTML += 
+            "<div class=\"col s4\">" +
+                "<div class=\"card\">" +
+                    "<div class=\"card-image\">" +
+                        "<img onclick=\"playPlaylist('" + playlisturi + "')\" src=\"" + playlistArt + "\">" +
+                    "</div>" +
+                    "<div class=\"card-content\">" +
+                        "<h5 class=\"truncate\">" + playlistName + "</h5>" +
+                        "<p class=\"truncate\">" + playlistCreator + "</p>" +
+                    "</div>" +
+                "</div>" +
+            "</div>";
+        }
+    })
+}
+
+//Search function to search for artist/track
+function search()
 {
     let query = document.getElementById("query").value;
     console.log(query);
-    Search(accessToken,query, 10);
-};*/
 
-//Search function to search for artist/track
-function Search(accessToken, query, limit)
-{
     fetch('https://api.spotify.com/v1/search?q=' 
     + query 
     + '&type=' + 'track%2Cartist' 
     + '&market=US' 
-    + '&limit=' + limit 
+    + '&limit=12' 
     + '&offset=5', {
         method: 'get',
         headers: { 'Authorization': 'Bearer ' + accessToken},
@@ -407,32 +444,91 @@ function Search(accessToken, query, limit)
     .then(function(res) {
  
         console.log(res);
-        document.getElementById("results").innerHTML = null;
+        document.getElementById("search-results").innerHTML = null;
 
         //Loop through search results and display them on screen
-        for(let i=0; i<10; i++)
+        for(let i=0; i<12; i++)
         {
-            document.getElementById("results").innerHTML += "<div class=\"result\"><img class=\"artWork\" src="
-            + res.tracks.items[i].album.images[2].url + ">" 
-            + "<h1>" + res.tracks.items[i].name + "</h1>"
-            + "<h2>" + res.tracks.items[i].album.name + "</h2>"
-            + "<h3>" + res.tracks.items[i].artists.map(artist => artist.name).join(", ") + "</h3>"
-            + "</div>";
+            document.getElementById("search-results").innerHTML += 
+            "<div class=\"col s2\">" +
+            "<div class=\"card\">" +
+                "<div class=\"card-image\">" +
+                    "<img onclick=\"playSong('" + res.tracks.items[i].uri + "')\" src=\"" + res.tracks.items[i].album.images[0].url + "\">" +
+                "</div>" +
+                "<div class=\"card-content\">" +
+                    "<h5 class=\"truncate\">" + res.tracks.items[i].name + "</h5>" +
+                    "<h6 class=\"truncate\">" + res.tracks.items[i].album.name + "</h6>" +
+                    "<h6 class=\"truncate\">" + res.tracks.items[i].artists.map(artist => artist.name).join(", ") + "</h6>" +
+                "</div>" +
+            "</div>" +
+        "</div>";
         }
 
     });
 }
 
-function playSong(deviceId, accessToken)
+function getDevice()
 {
-    url = "https://api.spotify.com/v1/me/player/play?device_id=" + deviceId;
-    data = {"uris": ["spotify:track:6gBFPUFcJLzWGx4lenP6h2"]};
-
-    fetch(url,{
-        method: 'put',
-        headers: { 'Authorization': 'Bearer ' + accessToken},
-        body: JSON.stringify(data)
+    return fetch("https://api.spotify.com/v1/me/player/devices",{
+        method: 'get',
+        headers: { 'Authorization': 'Bearer ' + accessToken}
     })
     .then(res => res.json())
     .catch(error => console.log(error))
+}
+
+function playSong(uri)
+{
+    getDevice().then(function(res){
+        //console.log(res);
+        let i = 0;
+        let deviceid = "";
+
+        do{
+            i++;
+            if(res.devices[i].is_active == true)
+            {
+                deviceid = res.devices[i].id;
+            }
+        }while(res.devices[i].is_active != true)
+
+        url = "https://api.spotify.com/v1/me/player/play?device_id=" + deviceid;
+        data = {"uris": [uri]};
+    
+        fetch(url,{
+            method: 'put',
+            headers: { 'Authorization': 'Bearer ' + accessToken},
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+    })
+}
+
+function playPlaylist(uri)
+{
+    getDevice().then(function(res){
+        //console.log(res);
+        let i = 0;
+        let deviceid = "";
+
+        do{
+            i++;
+            if(res.devices[i].is_active == true)
+            {
+                deviceid = res.devices[i].id;
+            }
+        }while(res.devices[i].is_active != true)
+
+        url = "https://api.spotify.com/v1/me/player/play?device_id=" + deviceid;
+        data = {"context_uri": uri};
+    
+        fetch(url,{
+            method: 'put',
+            headers: { 'Authorization': 'Bearer ' + accessToken},
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .catch(error => console.log(error))
+    })
 }
