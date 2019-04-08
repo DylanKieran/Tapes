@@ -10,26 +10,30 @@
   </head>
 
   <body>
-    <div class="navbar-fixed">
-        <nav class="nav-center purple darken-1" role="navigation">
-            <div class="container">
-                <div class="nav-wrapper container">
-                    <ul>
-                        <!--Menu items here-->
-                        <li><a href="home.html">Home</a></li>
-                        <li class="active"><a href="youtubeplayer.html">YouTube</a></li>
-                        <li><a href="spotifysignin.html">Spotify</a></li>
-                        <li><a href="radio.html">Radio</a></li>
-                        <li><a href="events.html">Events</a></li>
-                    </ul>
+    <nav class="purple darken-1">
+        <div class="nav-wrapper container">
+            <a href="index.html"><img src="assets/navlogo.png"/></a>    
+            <ul class="right">
+                <li><a href="index.html">Home</a></li>
+                <li class="active"><a href="youtubeplayer.html">YouTube</a></li>
+                <li><a href="spotifysignin.html">Spotify</a></li>
+                <li><a href="radio.html">Radio</a></li>
+                <li><a href="events.html">Events</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="parallax-container center valign-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h4 class="white-text">Bringing you closer to your music</h4>
                 </div>
             </div>
-        </nav>
-    </div>
-
-    <div class="parallax-container">
+        </div>
+    
         <div class="parallax">
-          <img src="assets/backgroundlogo.png">
+            <img src="assets/backgroundfade.png">
         </div>
     </div>
 
@@ -37,7 +41,8 @@
 <br><br>
 
   <div class="col s3 offset-s1">
-      <ul id="youtubeNav" class="collapsible popout">
+      <ul id="youtubeNav" class="collapsible">
+
           <li class="active">
               <div class="collapsible-header"><i class="material-icons">search</i>Search</div>
               <div class="collapsible-body">
@@ -48,6 +53,7 @@
                 <ul id="search-results" class="collection"></ul>
               </div>
           </li>
+
           <li>
             <div class="collapsible-header"><i class="material-icons">music_note</i>Video Queue</div>
             <div class="collapsible-body"><ul id="queue" class="collection"></ul></div>
@@ -82,6 +88,7 @@
       </ul>
     </div>
 
+    <br>
     <div class="col s4 offset-s1">
       <div id="player"></div>
     </div>

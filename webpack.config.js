@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-    entry: "./src/home.js",
+    entry: "./src/index.js",
     devtool: "inline-source-map",
     target: "web",
 
@@ -10,7 +10,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "src"),
-        filename: "home.js"
+        filename: "index.js"
     },
     node: {
         console: true,

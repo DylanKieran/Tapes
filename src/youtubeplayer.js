@@ -13,8 +13,8 @@ var player;
 function onYouTubeIframeAPIReady() {
 
 player = new YT.Player('player', {
-  height: '360',
-  width: '640',
+  height: '480',
+  width: '854',
   videoId: 'WILNIXZr2oc',
   events: {
     'onReady': onPlayerReady,
@@ -51,8 +51,6 @@ function onPlayerError(e){
 // Adds video to start of queue to be played
 function addtoqueue(videoid)
 {
-    player.cueVideoById({'videoId': videoid,
-        'startSeconds':5});
     Queue.unshift(videoid)
     retrieveVideoInfo(videoid).then(function(res)
     {
@@ -103,8 +101,6 @@ function addQueue(addQueue)
 // Remove video from queue
 function removefromQueue(videoid)
 {
-    //Remove song when finished playing
-    //shift removes song from beginning of the array
     var index = Queue.indexOf(videoid);
  
     if (index > -1) {

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/> 
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+      <div class="navbar-fixed">
+          <nav class="nav-center purple darken-1" role="navigation">
+              <div class="container">
+                  <div class="nav-wrapper container">
+                      <ul>
+                          <!--Menu items here-->
+                          <li class="active"><a href="index.html">Home</a></li>
+                          <li><a href="youtubeplayer.html">YouTube</a></li>
+                          <li><a href="spotifysignin.html">Spotify</a></li>
+                          <li><a href="radio.html">Radio</a></li>
+                          <li><a href="events.html">Events</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </nav>
+      </div>
+
+      <div class="parallax-container">
+          <div class="parallax">
+            <img src="assets/backgroundlogo.png">
+          </div>
+      </div>
+
+      <ul class="tabs tabs-fixed-width purple darken-1">
+          <li class="tab col s3"><a class="active" href="#songs" id="topSongs">Top Songs</a></li>
+          <li class="tab col s3"><a href="#artists" id="topArtists">Top Artists</a></li>
+      </ul>
+
+      <div id="songs" class="col s8">
+        <div class="row">
+          <br><br>
+          <div class="col s11 offset-s1">
+            <div class="col s3">
+              <div class="row purple darken-1 wrapper">
+                  <div id="topSongs-container" class="grey lighten-3 card">
+                    <div class="card-content">
+                      <h4>LastFM's Top Songs</h4>
+                      <ul id="topSongs-list" class="collection"></ul>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col s3 offset-s1">
+              <div class="row purple darken-1 wrapper">
+                  <div id="topSongs-container" class="grey lighten-3 card">
+                    <div class="card-content">
+                      <h4>YouTube's Top Songs Ireland</h4>
+                      <ul id="yt-topSongs-IE" class="collection"></ul>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col s3 offset-s1">
+              <div class="row purple darken-1 wrapper">
+                  <div id="topSongs-container" class="grey lighten-3 card">
+                    <div class="card-content">
+                      <h4>YouTube's Top Songs US</h4>
+                      <ul id="yt-topSongs-US" class="collection"></ul>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div id="artists" class="col s8">
+    <div class="row">
+    <br><br>
+      <div id="artists" class="col s4 offset-s4">
+          <div class="row purple darken-1 wrapper">
+            <div id="topArtists-container" class="grey lighten-3 card">
+              <div class="card-content">
+                <h4>Top Artists</h4>
+                <ul id="topArtists-list" class="collection"></ul>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="onload.js"></script>
+    <script type="text/javascript" src="oldhome.js"></script>
+    <script type="text/javascript" src="/js/materialize.min.js"></script>
+  </body>
+</html>

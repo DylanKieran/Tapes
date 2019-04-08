@@ -116,18 +116,6 @@ if(accessToken.length > 1)
     });
 }
 
-// Retrieve Spotify topSongs
-function spotify_topSongs(accessToken)
-{
-    url="https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF"
-
-    return fetch(url,{
-        method: 'get',
-        headers: { 'Authorization': 'Bearer ' + accessToken}})
-    .then(res => res.json())
-    .catch(error => console.log(error))
-}
-
 //Call Spotify Player and initiate player
 //Allows user playback in web browser from any device
 window.onSpotifyWebPlaybackSDKReady = () => {
@@ -379,6 +367,7 @@ function insertRecommendations(res)
                     "<h5 class=\"truncate\">" + trackName + "</h5>" +
                     "<h6 class=\"truncate\">" + albumName + "</h6>" +
                     "<h6 class=\"truncate\">" + artistName + "</h6>" +
+                    "<br>" +
                 "</div>" +
             "</div>" +
         "</div>";
@@ -418,6 +407,7 @@ function insertPlaylists()
                     "<div class=\"card-content\">" +
                         "<h5 class=\"truncate\">" + playlistName + "</h5>" +
                         "<p class=\"truncate\">" + playlistCreator + "</p>" +
+                        "<br>" +
                     "</div>" +
                 "</div>" +
             "</div>";
@@ -436,7 +426,7 @@ function search()
     + '&type=' + 'track%2Cartist' 
     + '&market=US' 
     + '&limit=12' 
-    + '&offset=5', {
+    + '&offset=0', {
         method: 'get',
         headers: { 'Authorization': 'Bearer ' + accessToken},
     })
@@ -531,4 +521,17 @@ function playPlaylist(uri)
         .then(res => res.json())
         .catch(error => console.log(error))
     })
+}
+
+
+// Retrieve Spotify topSongs
+function spotify_topSongs(accessToken)
+{
+    url="https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF"
+
+    return fetch(url,{
+        method: 'get',
+        headers: { 'Authorization': 'Bearer ' + accessToken}})
+    .then(res => res.json())
+    .catch(error => console.log(error))
 }
